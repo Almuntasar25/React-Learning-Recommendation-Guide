@@ -1,8 +1,8 @@
-# Creating a React App (From react.dev)
+# 📘 Creating a React App (From react.dev)
 
 ---
 
-#1. Overview
+# 1. Overview
 
 To build a new React app, it's recommended to use a full-stack framework that provides features like routing, static generation, and gradual server rendering.
 
