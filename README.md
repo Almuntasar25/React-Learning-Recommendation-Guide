@@ -200,187 +200,205 @@ If you have an existing native Android or iOS app, you can gradually add a React
 
 ------------------------------------------------------------------------------------------------------------------------------------->>>
 
-# 📘 React Hooks Learning Guide for Beginners
+# 📘 Comprehensive React Hooks Guide for Beginners
 
-This guide is designed to help beginners understand **React Hooks**, based on the official React documentation.  
-We provide clear, categorized explanations and simple examples to help you learn effectively.
-
-🔗 Source: [React Docs](https://react.dev/reference/react)
+This guide provides a beginner-friendly explanation of **React Hooks**, based entirely on the official documentation at [react.dev](https://react.dev/reference/react). It is designed to help you learn React effectively with categorized examples and clear language.
 
 ---
 
-## 🧠 What are React Hooks?
+## 🚀 Introduction to Hooks
 
-**React Hooks** are functions that let you use state and other React features in functional components.
+**React Hooks** allow you to use state, context, side effects, refs, and more in functional components. They're the standard way to build modern React apps.
 
-> Hooks are the modern standard in React — understanding them is essential!
+🔗 [All Hooks Reference](https://react.dev/reference/react)
 
 ---
 
-## 📂 Learning Categories
+## 🧠 Core Hooks
 
-### 1. 🔄 useActionState
+### 🔹 useState
 
-#### 📘 Description:
-`useActionState` is a hook that manages **form state** when submitting asynchronous actions.
+Manages local state in functional components.
 
-#### 🔗 Official Docs: [useActionState](https://react.dev/reference/react/useActionState)
-
-#### 🔹 Syntax:
 ```jsx
-const [state, formAction] = useActionState(
-  async (prevState, formData) => {
-    // logic to handle form
-  },
-  initialState
-);
+const [count, setCount] = useState(0);
 ```
 
-#### 🔹 Example:
-```jsx
-const [message, submitAction] = useActionState(
-  async (prevState, formData) => {
-    const name = formData.get('name');
-    return `Hello, ${name}!`;
-  },
-  ''
-);
-
-<form action={submitAction}>
-  <input name="name" />
-  <button type="submit">Greet</button>
-</form>
-
-<p>{message}</p>
-```
+📘 [Docs](https://react.dev/reference/react/useState)
 
 ---
 
-### 2. 🧠 useCallback
+### 🔹 useEffect
 
-#### 📘 Description:
-`useCallback` memoizes a callback function so it only changes when dependencies change — useful for performance optimization.
+Performs side effects like fetching data, DOM updates, etc.
 
-#### 🔗 Official Docs: [useCallback](https://react.dev/reference/react/useCallback)
+```jsx
+useEffect(() => {
+  document.title = `You clicked ${count} times`;
+}, [count]);
+```
 
-#### 🔹 Syntax:
+📘 [Docs](https://react.dev/reference/react/useEffect)
+
+---
+
+### 🔹 useContext
+
+Access values from React context without prop drilling.
+
+```jsx
+const value = useContext(MyContext);
+```
+
+📘 [Docs](https://react.dev/reference/react/useContext)
+
+---
+
+## 🧩 Performance Hooks
+
+### 🔹 useMemo
+
+Memoizes computed values to avoid expensive recalculations.
+
+```jsx
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+```
+
+📘 [Docs](https://react.dev/reference/react/useMemo)
+
+---
+
+### 🔹 useCallback
+
+Returns a memoized callback.
+
 ```jsx
 const memoizedCallback = useCallback(() => {
-  // your logic
-}, [dependencies]);
+  doSomething(a, b);
+}, [a, b]);
 ```
 
-#### 🔹 Example:
+📘 [Docs](https://react.dev/reference/react/useCallback)
+
+---
+
+## 🎛️ Advanced State Management
+
+### 🔹 useReducer
+
+Alternative to useState for complex state logic.
+
 ```jsx
-const handleClick = useCallback(() => {
-  console.log('Button clicked');
+const [state, dispatch] = useReducer(reducer, initialArg, init);
+```
+
+📘 [Docs](https://react.dev/reference/react/useReducer)
+
+---
+
+### 🔹 useOptimistic
+
+Optimistically updates UI before async updates complete.
+
+```jsx
+const [optimisticValue, addOptimistic] = useOptimistic(value);
+```
+
+📘 [Docs](https://react.dev/reference/react/useOptimistic)
+
+---
+
+## 🎯 DOM and Layout Hooks
+
+### 🔹 useRef
+
+Access or persist values without causing re-renders.
+
+```jsx
+const inputRef = useRef(null);
+```
+
+📘 [Docs](https://react.dev/reference/react/useRef)
+
+---
+
+### 🔹 useImperativeHandle
+
+Customizes what parent refs can access in child components.
+
+```jsx
+useImperativeHandle(ref, () => ({ focus }));
+```
+
+📘 [Docs](https://react.dev/reference/react/useImperativeHandle)
+
+---
+
+### 🔹 useLayoutEffect
+
+Like `useEffect` but fires synchronously after all DOM mutations.
+
+```jsx
+useLayoutEffect(() => {
+  // manipulate layout here
 }, []);
-
-return <button onClick={handleClick}>Click Me</button>;
 ```
+
+📘 [Docs](https://react.dev/reference/react/useLayoutEffect)
 
 ---
 
-### 3. 🌐 useContext
+### 🔹 useInsertionEffect
 
-#### 📘 Description:
-`useContext` lets you access values from a React Context — great for global themes, authentication, etc.
+Used to insert styles before DOM painting.
 
-#### 🔗 Official Docs: [useContext](https://react.dev/reference/react/useContext)
-
-#### 🔹 Example:
 ```jsx
-const ThemeContext = React.createContext('light');
-
-function App() {
-  return (
-    <ThemeContext.Provider value="dark">
-      <ThemedButton />
-    </ThemeContext.Provider>
-  );
-}
-
-function ThemedButton() {
-  const theme = useContext(ThemeContext);
-  return <button className={theme}>Styled Button</button>;
-}
+useInsertionEffect(() => {
+  // insert styles here
+}, []);
 ```
+
+📘 [Docs](https://react.dev/reference/react/useInsertionEffect)
 
 ---
 
-### 4. 🐞 useDebugValue
+## 🔍 Identity and Transition Hooks
 
-#### 📘 Description:
-`useDebugValue` helps label custom hooks for easier debugging in React DevTools.
+### 🔹 useId
 
-#### 🔗 Official Docs: [useDebugValue](https://react.dev/reference/react/useDebugValue)
+Generates unique IDs for accessibility and server rendering.
 
-#### 🔹 Example:
 ```jsx
-function useFriendStatus(friendID) {
-  const [isOnline, setIsOnline] = useState(null);
-
-  useDebugValue(isOnline ? 'Online' : 'Offline');
-
-  // simulate status change
-  useEffect(() => {
-    setIsOnline(true);
-  }, []);
-
-  return isOnline;
-}
+const id = useId();
 ```
 
-> Only useful for **custom hooks** when using DevTools.
+📘 [Docs](https://react.dev/reference/react/useId)
 
 ---
 
-### 5. 🐢 useDeferredValue
+### 🔹 useTransition
 
-#### 📘 Description:
-`useDeferredValue` helps **defer updating a value** for smoother UI when performance is impacted.
+Defer state updates for improved UI responsiveness.
 
-#### 🔗 Official Docs: [useDeferredValue](https://react.dev/reference/react/useDeferredValue)
-
-#### 🔹 Example:
 ```jsx
-const [query, setQuery] = useState('');
-const deferredQuery = useDeferredValue(query);
-
-useEffect(() => {
-  // search or filter with deferredQuery
-}, [deferredQuery]);
-
-return (
-  <input value={query} onChange={e => setQuery(e.target.value)} />
-);
+const [isPending, startTransition] = useTransition();
 ```
+
+📘 [Docs](https://react.dev/reference/react/useTransition)
 
 ---
 
-## 📂 Recommended Folder Structure for Practice
+## 🔄 Sync External Stores
 
-```
-react-hooks-learning/
-│
-├── useActionState/
-│   └── FormExample.jsx
-│
-├── useCallback/
-│   └── MemoizedFunction.jsx
-│
-├── useContext/
-│   └── ThemeExample.jsx
-│
-├── useDebugValue/
-│   └── CustomHookWithDebug.jsx
-│
-├── useDeferredValue/
-│   └── DeferredSearch.jsx
+### 🔹 useSyncExternalStore
+
+Subscribes to external data sources.
+
+```jsx
+const snapshot = useSyncExternalStore(subscribe, getSnapshot);
 ```
 
-
-
+📘 [Docs](https://react.dev/reference/react/useSyncExternalStore)
 
 
 
