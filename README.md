@@ -200,6 +200,184 @@ If you have an existing native Android or iOS app, you can gradually add a React
 
 ------------------------------------------------------------------------------------------------------------------------------------->>>
 
+# 📘 React Hooks Learning Guide for Beginners
+
+This guide is designed to help beginners understand **React Hooks**, based on the official React documentation.  
+We provide clear, categorized explanations and simple examples to help you learn effectively.
+
+🔗 Source: [React Docs](https://react.dev/reference/react)
+
+---
+
+## 🧠 What are React Hooks?
+
+**React Hooks** are functions that let you use state and other React features in functional components.
+
+> Hooks are the modern standard in React — understanding them is essential!
+
+---
+
+## 📂 Learning Categories
+
+### 1. 🔄 useActionState
+
+#### 📘 Description:
+`useActionState` is a hook that manages **form state** when submitting asynchronous actions.
+
+#### 🔗 Official Docs: [useActionState](https://react.dev/reference/react/useActionState)
+
+#### 🔹 Syntax:
+```jsx
+const [state, formAction] = useActionState(
+  async (prevState, formData) => {
+    // logic to handle form
+  },
+  initialState
+);
+```
+
+#### 🔹 Example:
+```jsx
+const [message, submitAction] = useActionState(
+  async (prevState, formData) => {
+    const name = formData.get('name');
+    return `Hello, ${name}!`;
+  },
+  ''
+);
+
+<form action={submitAction}>
+  <input name="name" />
+  <button type="submit">Greet</button>
+</form>
+
+<p>{message}</p>
+```
+
+---
+
+### 2. 🧠 useCallback
+
+#### 📘 Description:
+`useCallback` memoizes a callback function so it only changes when dependencies change — useful for performance optimization.
+
+#### 🔗 Official Docs: [useCallback](https://react.dev/reference/react/useCallback)
+
+#### 🔹 Syntax:
+```jsx
+const memoizedCallback = useCallback(() => {
+  // your logic
+}, [dependencies]);
+```
+
+#### 🔹 Example:
+```jsx
+const handleClick = useCallback(() => {
+  console.log('Button clicked');
+}, []);
+
+return <button onClick={handleClick}>Click Me</button>;
+```
+
+---
+
+### 3. 🌐 useContext
+
+#### 📘 Description:
+`useContext` lets you access values from a React Context — great for global themes, authentication, etc.
+
+#### 🔗 Official Docs: [useContext](https://react.dev/reference/react/useContext)
+
+#### 🔹 Example:
+```jsx
+const ThemeContext = React.createContext('light');
+
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <ThemedButton />
+    </ThemeContext.Provider>
+  );
+}
+
+function ThemedButton() {
+  const theme = useContext(ThemeContext);
+  return <button className={theme}>Styled Button</button>;
+}
+```
+
+---
+
+### 4. 🐞 useDebugValue
+
+#### 📘 Description:
+`useDebugValue` helps label custom hooks for easier debugging in React DevTools.
+
+#### 🔗 Official Docs: [useDebugValue](https://react.dev/reference/react/useDebugValue)
+
+#### 🔹 Example:
+```jsx
+function useFriendStatus(friendID) {
+  const [isOnline, setIsOnline] = useState(null);
+
+  useDebugValue(isOnline ? 'Online' : 'Offline');
+
+  // simulate status change
+  useEffect(() => {
+    setIsOnline(true);
+  }, []);
+
+  return isOnline;
+}
+```
+
+> Only useful for **custom hooks** when using DevTools.
+
+---
+
+### 5. 🐢 useDeferredValue
+
+#### 📘 Description:
+`useDeferredValue` helps **defer updating a value** for smoother UI when performance is impacted.
+
+#### 🔗 Official Docs: [useDeferredValue](https://react.dev/reference/react/useDeferredValue)
+
+#### 🔹 Example:
+```jsx
+const [query, setQuery] = useState('');
+const deferredQuery = useDeferredValue(query);
+
+useEffect(() => {
+  // search or filter with deferredQuery
+}, [deferredQuery]);
+
+return (
+  <input value={query} onChange={e => setQuery(e.target.value)} />
+);
+```
+
+---
+
+## 📂 Recommended Folder Structure for Practice
+
+```
+react-hooks-learning/
+│
+├── useActionState/
+│   └── FormExample.jsx
+│
+├── useCallback/
+│   └── MemoizedFunction.jsx
+│
+├── useContext/
+│   └── ThemeExample.jsx
+│
+├── useDebugValue/
+│   └── CustomHookWithDebug.jsx
+│
+├── useDeferredValue/
+│   └── DeferredSearch.jsx
+```
 
 
 
